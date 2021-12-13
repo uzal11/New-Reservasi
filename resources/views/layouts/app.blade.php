@@ -12,7 +12,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/gartenhuttelogo.png') }}">
+    @laravelPWA
 </head>
 
 <body>
@@ -47,16 +47,10 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <?php
-                            $order_utama = \App\Models\Order::where('user_id', Auth::user()->id)
-                                ->where('keranjang_status', 0)
-                                ->first();
-                            $notif = \App\Models\MenuOrder::where('order_id', $order_utama->id)->count();
-                            ?>
-                            <a class="nav-link" href="{{ url('check-out') }}"><i
-                                    class="fa fa-shopping-cart"></i><span
-                                    class="badge badge-danger">{{ $notif }}</span>
-                            </a>
+                            <a class="nav-link" href="{{ url('/meja') }}">Reservasi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/scan') }}">Pesan Di Tempat</a>
                         </li>
                         @guest
                             <li class="nav-item">
@@ -78,10 +72,13 @@
                                     <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                         Edit Profile
                                     </a>
+                                    <a href="{{ url('seluruh_riwayat') }}" class="dropdown-item">
+                                        Riwayat Pemesanan
+                                    </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                 document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -92,6 +89,24 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item">
+                            <?php
+                            $pesanan_utama = \App\Models\Pesanan::where('user_id', Auth::user()->id)
+                                ->where('keranjang_status', 0)
+                                ->first();
+                            if (!empty($pesanan_utama)) {
+                                $notif = \App\Models\MenuPesanan::where('pesanan_id', $pesanan_utama->id)->count();
+                            }
+                            
+                            ?>
+                            <a class="nav-link" href="{{ url('check-out') }}">
+                                <i class="fa fa-shopping-cart">
+                                </i>
+                                @if (!empty($notif))
+                                    <span class="badge badge-danger">{{ $notif }}</span>
+                                @endif
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +116,9 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @include('sweet::alert')
+    @include('sweetalert::alert')
 </body>
 
 </html>

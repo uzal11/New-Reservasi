@@ -56,7 +56,7 @@
             </table>
         </div>
         <div class="col-md-12">
-            <form id="formCO" action="{{ url('/konfirmasi-check-out') }}" method="post" onsubmit="return confirm('Anda yakin ingin check out?');">
+            <form id="formCO" action="{{ url('/konfirmasi-check-out') }}" method="post" onsubmit="if(!confirm('Anda yakin ingin check out?')){return false;}">
                 @csrf
                 @if($pesanan->jenis == "Reservasi")
                 <h3>
@@ -86,26 +86,7 @@
                             @endphp
                             @if($pesanan->jenis == "Reservasi")
                             <td>
-                                <input type="datetime-local" min="{{date('Y-m-d')}}T08:00" id="tgl" name="tgl" value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('1 weeks', strtotime($currentDate))) }}">
-                                <!-- \ -->
-                                <!-- <br>
-                                <select name="jam" id="jam" title="jam">
-                                    @php
-                                    $jam = 24;
-                                    @endphp
-                                    @for ($i = 0; $i < $jam; $i++) @php $strSel='' ; if ($i==intval(date('H'))) { $strSel=' selected="selected"' ; } @endphp <option value="{{ $i }}" {{ $strSel }}>
-                                        {{ $i }}</option>
-                                        @endfor
-                                </select>
-                                :
-                                <select name="min" id="min" title="menit">
-                                    @php
-                                    $jam = 60;
-                                    @endphp
-                                    @for ($i = 0; $i < $jam; $i++) @php $strSel='' ; if ($i==intval(date('i'))) { $strSel=' selected="selected"' ; } @endphp <option value="{{ $i }}" {{ $strSel }}>
-                                        {{ $i }}</option>
-                                        @endfor
-                                </select> -->
+                                <input type="datetime-local" min="{{date('Y-m-d')}}T08:00" id="tgl" name="tgl" value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('1 weeks', strtotime($currentDate))) }}" required>
                             </td>
                             @endif
                             <td>{{ $pesanan->meja->nama }}</td>
@@ -122,7 +103,7 @@
                 </table>
                 @if (!empty($pesanan->meja_id))
                 <h3>
-                    <button onclick="document.getElementById('formCO').submit();" class="btn btn-success">
+                    <button type="submit" class="btn btn-success">
                         <i class="fa fa-shopping-cart"></i>Check Out</button>
                 </h3>
                 @endif

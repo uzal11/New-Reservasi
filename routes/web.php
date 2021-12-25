@@ -55,6 +55,9 @@ Route::get('live_pesanan', 'PesananAdminController@detail');
 Route::get('history_diproses', 'HistoryController@diproses');
 Route::get('seluruh_riwayat', 'HistoryController@seluruhriwayat');
 Route::post('update_status/{id}', 'PesananAdminController@updatestatus');
+Route::get('adminmenupesanan', 'PesananAdminController@adminmenupesanan');
+Route::get('adminpesanan', 'PesananAdminController@adminpesanan');
+
 /*Nanti dilindungi dengan admin*/
 
 

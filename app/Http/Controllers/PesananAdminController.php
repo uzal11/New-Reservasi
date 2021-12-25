@@ -27,14 +27,13 @@ class PesananAdminController extends Controller
 
     public function detail()
     {
-        $pesanans = Pesanan::
-        with('menu')
-        ->with('menu.menu')
-        ->with('meja')
-        ->whereDate('rencana_tiba', date('Y-m-d'))
-        ->orWhereDate('created_at', date('Y-m-d'))
-        ->orderBy('rencana_tiba', 'ASC')
-        ->get();
+        $pesanans = Pesanan::with('menu')
+            ->with('menu.menu')
+            ->with('meja')
+            ->whereDate('rencana_tiba', date('Y-m-d'))
+            ->orWhereDate('created_at', date('Y-m-d'))
+            ->orderBy('rencana_tiba', 'ASC')
+            ->get();
 
         return view('live_pesanan', compact('pesanans'));
     }
@@ -46,5 +45,16 @@ class PesananAdminController extends Controller
         $pesanan->update();
 
         return redirect('live_pesanan')->with('success', 'Pesanan Selesai');
+    }
+
+
+    public function adminpesanan()
+    {
+        return view('adminpesanan');
+    }
+
+    public function adminmenupesanan()
+    {
+        return view('adminmenupesanan');
     }
 }

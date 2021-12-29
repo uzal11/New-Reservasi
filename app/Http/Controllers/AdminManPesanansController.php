@@ -40,7 +40,8 @@ class AdminManPesanansController extends \crocodicstudio\crudbooster\controllers
 		$this->col[] = ["label" => "Kode Pesanan", "name" => "kode"];
 		$this->col[] = ["label" => "Jenis Pesanan", "name" => "jenis"];
 		$this->col[] = ["label" => "Nomor Meja", "name" => "meja_id", "join" => "mejas,nama"];
-		$this->col[] = ["label" => "Sektor", "name" => "(SELECT sektors.nama FROM pesanans JOIN mejas ON pesanans.meja_id = mejas.id JOIN sektors ON sektors.id = mejas.sektor_id LIMIT 1) as sektor"];
+		$this->col[] = ["label" => "Sektor", "name" => "sektors.nama", "join" => "mejas,sektor_id", "join" => "sektors,id"];
+		// $this->col[] = ["label" => "Sektor", "name" => "(SELECT sektors.nama FROM pesanans JOIN mejas ON pesanans.meja_id = mejas.id JOIN sektors ON sektors.id = mejas.sektor_id LIMIT 1) as sektor"];
 		$this->col[] = ["label" => "Tanggal Pesan/Reservasi", "name" => "created_at"];
 		$this->col[] = ["label" => "Rencana Tiba", "name" => "rencana_tiba"];
 		$this->col[] = ["label" => "Tambahan Kursi", "name" => "tambahan_kursi"];

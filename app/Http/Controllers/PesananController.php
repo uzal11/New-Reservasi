@@ -136,6 +136,13 @@ class PesananController extends Controller
         }
 
         $pesanan->tambahan_kursi = $request->tambah_kursi;
+        $pesanan->kapan_pesan = $tanggal;
+        $pesanan->keranjang_status = 0;
+        $pesanan->total_harga = 0;
+        $pesanan->jenis = 'Reservasi';
+        $pesanan->status = 'Menunggu Pembayaran';
+        $pesanan->check_in = 'Belum Hadir';
+        $pesanan->kode = 'RS' . date("mdHi");
         $pesanan->meja_id = $id;
         $pesanan->update();
 
@@ -144,6 +151,7 @@ class PesananController extends Controller
 
     public function konfirmasi(Request $request)
     {
+        // return $request->all();
         $pesanan = Pesanan::where('user_id', Auth::user()->id)->with('menu')->with('menu.menu')->where('keranjang_status', 0)->first();
         if (sizeof($pesanan->menu) < 1) {
             return redirect()->back()->with('warning', 'Belum ada menu yg dipilih untuk Check Out');

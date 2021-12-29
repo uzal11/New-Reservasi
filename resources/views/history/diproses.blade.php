@@ -43,7 +43,7 @@
                                                 <i class="fa fa-info"></i>Detail</a>
                                         </td>
                                         <td>
-                                            <a href="{{ url('/scan') }}" class="btn btn-success">
+                                            <a href="{{ url('/scan-pindah-meja/'.$pesanan->id) }}" class="btn btn-success">
                                                 <i class="fa fa-table"></i>Pindah Meja</a>
                                         </td>
                                     </tr>

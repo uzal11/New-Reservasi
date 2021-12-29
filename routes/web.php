@@ -25,6 +25,12 @@ Route::view('/offline', 'vendor.laravelpwa.offline');
 
 Route::get('/scan', 'ScanController@index');
 Route::get('/scan/{id}', 'QRFactory@scan');
+
+Route::get('/scan-pindah-meja/{id}', 'QRFactory@scanPindahMeja');
+Route::get('/scan-pindah-meja/{id}/{meja}', 'QRFactory@updatePindahMeja');
+
+
+
 Auth::routes();
 Route::get('/sektor', 'SektorController@index');
 Route::get('/meja', 'MejaController@index');

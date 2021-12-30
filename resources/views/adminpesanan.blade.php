@@ -21,7 +21,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <th></th>
+                        <?php $no = 1; ?>
+                        @foreach ($pesanans as $pesanan)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $pesanan->user->name }}</td>
+                                <td>{{ $pesanan->kode }}</td>
+                                <td>{{ $pesanan->jenis }}</td>
+                                <td>{{ $pesanan->meja->nama }}</td>
+                                <td>{{ $pesanan->meja->sektor->nama }}</td>
+                                <td>{{ $pesanan->kapan_pesan }}</td>
+                                <td>{{ $pesanna->rencana_tiba }}</td>
+                                <td>{{ $pesanan->tambahan_kursi }}</td>
+                                <td>{{ $pesanan->status }}</td>
+                                <td>{{ $pesanan->bukti_pembayaran }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

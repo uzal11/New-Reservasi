@@ -50,11 +50,19 @@ class PesananAdminController extends Controller
 
     public function adminpesanan()
     {
-        return view('adminpesanan');
+        $pesanans = Pesanan::with('menu')
+            ->with('menu.menu')
+            ->with('meja')
+            ->orderBy('rencana_tiba', 'ASC')
+            ->get();
+
+        return view('adminpesanan', compact('pesanans'));
     }
 
     public function adminmenupesanan()
     {
-        return view('adminmenupesanan');
+        $menu_pesanans = MenuPesanan::with('menu')->get();
+
+        return view('adminmenupesanan', compact('menu_pesanans'));
     }
 }

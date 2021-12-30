@@ -7,6 +7,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Nama Pelanggan</th>
                             <th>Kode Pesanan</th>
                             <th>Nama Menu</th>
                             <th>Jumlah</th>
@@ -15,8 +16,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <th></th>
-                        </tr>
+                        <?php $no = 1; ?>
+                        @foreach ($menu_pesanans as $menu_pesanan)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $menu_pesanan->pesanan->user->name }}</td>
+                                <td>{{ $menu_pesanan->pesanan->kode }}</td>
+                                <td>{{ $menu_pesanan->menu->nama }}</td>
+                                <td>{{ $menu_pesanan->jumlah }}</td>
+                                <td>{{ $menu_pesanan->pesanan->status }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

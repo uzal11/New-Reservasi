@@ -24,7 +24,7 @@
                                 <td>{{ $menu_pesanan->pesanan->kode }}</td>
                                 <td>{{ $menu_pesanan->menu->nama }}</td>
                                 <td>{{ $menu_pesanan->jumlah }}</td>
-                                <td>{{ $menu_pesanan->pesanan->status }}</td>
+                                <td>{{ $menu_pesanan->pesanan->status_pesanan }}</td>
                             </tr>
                         @endforeach
                     </tbody>

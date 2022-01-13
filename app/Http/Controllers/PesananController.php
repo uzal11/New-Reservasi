@@ -40,7 +40,8 @@ class PesananController extends Controller
             $pesanan->keranjang_status = 0;
             $pesanan->total_harga = 0;
             $pesanan->jenis = 'Reservasi';
-            $pesanan->status = 'Menunggu Pembayaran';
+            $pesanan->status_pembayaran = 'Belum Bayar';
+            $pesanan->status_pesanan = 'Menunggu Pembayaran';
             $pesanan->check_in = 'Belum Hadir';
             $pesanan->kode = 'RS' . date("mdHi");
             $pesanan->save();
@@ -56,6 +57,7 @@ class PesananController extends Controller
             $menu_pesanan->menu_id = $menu->id;
             $menu_pesanan->pesanan_id = $pesanan_new->id;
             $menu_pesanan->jumlah = $request->jumlah_pesanan;
+            $menu_pesanan->catatan = $request->catatan;
             $menu_pesanan->total_harga = $menu->harga * $request->jumlah_pesanan;
             $menu_pesanan->save();
         } else {
@@ -67,17 +69,6 @@ class PesananController extends Controller
             $menu_pesanan->total_harga = $menu_pesanan->total_harga + $harga_menu_pesanan_baru;
             $menu_pesanan->update();
         }
-
-        // if ($menu->cathegory == 'Makanan') {
-        //     $pesanan->total_makanan = $menu_pesanan->jumlah;
-        //     $pesanan->update();
-        // } else if ($menu->cathegory == 'Minuman') {
-        //     $pesanan->total_minuman = $menu_pesanan->jumlah;
-        //     $pesanan->update();
-        // } else {
-        //     $pesanan->total_makanan = $menu_pesanan->jumlah;
-        //     $pesanan->update();
-        // }
 
         //jumlah total
         $pesanan = Pesanan::where('user_id', Auth::user()->id)->where('keranjang_status', 0)->first();
@@ -129,7 +120,8 @@ class PesananController extends Controller
             $pesanan->keranjang_status = 0;
             $pesanan->total_harga = 0;
             $pesanan->jenis = 'Reservasi';
-            $pesanan->status = 'Menunggu Pembayaran';
+            $pesanan->status_pembayaran = 'Belum Bayar';
+            $pesanan->status_pesanan = 'Menunggu Pembayaran';
             $pesanan->check_in = 'Belum Hadir';
             $pesanan->kode = 'RS' . date("mdHi");
             $pesanan->save();
@@ -140,13 +132,14 @@ class PesananController extends Controller
         $pesanan->keranjang_status = 0;
         $pesanan->total_harga = 0;
         $pesanan->jenis = 'Reservasi';
-        $pesanan->status = 'Menunggu Pembayaran';
+        $pesanan->status_pembayaran = 'Belum Bayar';
+        $pesanan->status_pesanan = 'Menunggu Pembayaran';
         $pesanan->check_in = 'Belum Hadir';
         $pesanan->kode = 'RS' . date("mdHi");
         $pesanan->meja_id = $id;
         $pesanan->update();
 
-        return redirect('check-out')->with('success', 'Berhasil Pilih Meja');
+        return redirect('pesan')->with('success', 'Berhasil Pilih Meja');
     }
 
     public function konfirmasi(Request $request)
@@ -159,22 +152,41 @@ class PesananController extends Controller
 
         $pesanan_id = $pesanan->id;
         $pesanan->keranjang_status = 1;
-        $pesanan->rencana_tiba = $request->tgl . ' ' . $request->jam . ':' . $request->min;
-        $pesanan->update();
-
-        return redirect('history/' . $pesanan_id)->with('success', 'Berhasil Check Out');
-    }
-
-    public function buktipembayaran(Request $request)
-    {
-        // dd($request->all());
-        $pesanan = Pesanan::find($request->id);
+        if ($pesanan->jenis == "Dine In") {
+            $pesanan->rencana_tiba = $pesanan->kapan_pesan;
+        } else {
+            $pesanan->rencana_tiba = $request->tgl . ' ' . $request->jam . ':' . $request->min;
+        }
+        $this->validate($request, [
+            'bukti_pembayaran' => 'image|required|max:1999'
+        ]);
         $file = $request->bukti_pembayaran;
         $file_name = time() . $file->getClientOriginalName();
         $file->move('uploads/bukti_pembayaran', $file_name);
         $pesanan->bukti_pembayaran = 'uploads/bukti_pembayaran/' . $file_name;
-        $pesanan->save();
+        $pesanan->status_pembayaran = 'Verifikasi Pembayaran';
+        if ($pesanan->status_pembayaran == 'Sudah Bayar') {
+            $pesanan->status_pesanan = 'Diproses';
+        }
+        $pesanan->update();
 
-        return redirect('history/' . $pesanan->id)->with('success', 'Berhasil Upload');
+        return redirect('history/' . $pesanan_id)->with('success', 'Berhasil Pesan');
     }
+
+    // public function buktipembayaran(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $pesanan = Pesanan::find($request->id);
+    //     $file = $request->bukti_pembayaran;
+    //     $file_name = time() . $file->getClientOriginalName();
+    //     $file->move('uploads/bukti_pembayaran', $file_name);
+    //     $pesanan->bukti_pembayaran = 'uploads/bukti_pembayaran/' . $file_name;
+    //     $pesanan->status_pembayaran = 'Sudah Bayar';
+    //     if ($pesanan->status_pembayaran = 'Sudah Bayar') {
+    //         $pesanan->status_pesanan = 'Diproses';
+    //     }
+    //     $pesanan->save();
+
+    //     return redirect('check-out')->with('success', 'Berhasil Upload');
+    // }
 }

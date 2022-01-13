@@ -15,7 +15,7 @@
                             <th>Tanggal Pesan/Reservasi</th>
                             <th>Rencana Tiba</th>
                             <th>Tambahan Kursi</th>
-                            <th>Status</th>
+                            <th>Status Pesanan</th>
                             <th>Bukti Pembayaran</th>
                             <th>Aksi</th>
                         </tr>
@@ -33,7 +33,7 @@
                                 <td>{{ $pesanan->kapan_pesan }}</td>
                                 <td>{{ $pesanna->rencana_tiba }}</td>
                                 <td>{{ $pesanan->tambahan_kursi }}</td>
-                                <td>{{ $pesanan->status }}</td>
+                                <td>{{ $pesanan->status_pesanan }}</td>
                                 <td>{{ $pesanan->bukti_pembayaran }}</td>
                             </tr>
                         @endforeach

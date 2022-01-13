@@ -16,8 +16,6 @@
 </head>
 
 <body>
-
-<h1>{{$id}}</h1>
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-5">
@@ -43,7 +41,7 @@
     scanner.addListener('scan', function(content) {
         //alert(content);
         //$("#qrcode").val(content);
-        window.location = '/scan-pindah-meja/'+{!!$id!!}+"/" + content;
+        window.location = {!! $id !!} + "/" + content;
     });
 
     Instascan.Camera.getCameras().then(function(cameras) {

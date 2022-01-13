@@ -35,11 +35,11 @@
                                                         Kode Pesananan : <b>{{ $pesanan->kode }}</b>
                                                         <br>
                                                         Waktu Penyiapan :
-                                                        <b>{{ date('d M Y H:i', strtotime($pesanan->kapan_tiba)) }}</b>
+                                                        <b>{{ date('d M Y H:i', strtotime($pesanan->rencana_tiba)) }}</b>
                                                         <br>
                                                         Status :
                                                         @if ($pesanan->keranjang_status == 1)
-                                                            <b>{{ $pesanan->status }}</b>
+                                                            <b>{{ $pesanan->status_pesanan }}</b>
                                                         @else
                                                             <b>Sudah Dibayar</b>
                                                         @endif

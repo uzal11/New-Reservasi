@@ -40,7 +40,7 @@ class QRFactory extends Controller
             // ->with('menu')
             // ->with('menu.menu')
             ->where('keranjang_status', 0)
-            ->where('status', '!=', 'Selesai')
+            ->where('status_pesanan', '!=', 'Selesai')
             ->orderBy('created_at', "DESC")
             // ->count()
             ->first();
@@ -53,7 +53,8 @@ class QRFactory extends Controller
                     $pesanan->kapan_pesan = $tanggal;
                     $pesanan->rencana_tiba = $tanggal;
                     $pesanan->kapan_tiba = $tanggal;
-                    $pesanan->status = 'Menunggu Pembayaran';
+                    $pesanan->status_pembayaran = 'Belum Bayar';
+                    $pesanan->status_pesanan = 'Menunggu Pembayaran';
                     $pesanan->keranjang_status = 0;
                     $pesanan->jenis = 'Dine In';
                     $pesanan->kode = 'DI' . date("mdHi");
@@ -78,7 +79,8 @@ class QRFactory extends Controller
             $pesanan->rencana_tiba = $tanggal;
             $pesanan->kapan_tiba = $tanggal;
             $pesanan->meja->is_available = 0;
-            $pesanan->status = 'Menunggu Pembayaran';
+            $pesanan->status_pembayaran = 'Belum Bayar';
+            $pesanan->status_pesanan = 'Menunggu Pembayaran';
             $pesanan->keranjang_status = 0;
             $pesanan->jenis = 'Dine In';
             $pesanan->kode = 'DI' . date("mdHi");
